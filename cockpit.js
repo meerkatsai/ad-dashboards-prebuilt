@@ -1,4 +1,4 @@
-/* Dashboard demo (design-file layout) + drill bridge into the on-demand explorer (explore.html) — a faithful vanilla port of the design handoff's own
+/* Dashboard demo (design-file layout, in-place drill) — a faithful vanilla port of the design handoff's own
    dashboard (ui_kits/dashboard/): top bar = wordmark + platform dropdown ONLY;
    below it the design file's exact card sets, every chart its own full-width
    card. Per-card controls (metric / campaign / D-W-M / compare) work; pin =
