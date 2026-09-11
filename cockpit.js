@@ -333,6 +333,7 @@ const PRODUCT_MEMBERS={amazon:["AreoVeda Baby Lotion","AreoVeda Stretch Marks Cr
   google:["baby diaper cream","stretch marks cream","baby wash","natural baby lotion","baby massage oil","diaper rash"],
   meta:["UGC Testimonial","Product Demo","Before/After","Founder Story"]};
 const DIM_LABEL={advertised_asin:"Advertised ASIN",fsn:"FSN (product)",keyword:"Keyword",creative:"Creative",campaign:"Campaign",placement:"Placement",device:"Device",os:"OS"};
+const DIM_PLURAL={advertised_asin:"advertised ASINs (products)",fsn:"products (FSN)",keyword:"keywords",creative:"creatives",campaign:"campaigns",placement:"placements",device:"devices",os:"operating systems"};
 function nextDim(pk,dim){ if(dim==="campaign")return PRODUCT_DIM[pk];
   if(dim==="placement"||dim==="device"||dim==="os")return "campaign"; return null; }
 function membersOf(pk,dim){ return dim===PRODUCT_DIM[pk]?PRODUCT_MEMBERS[pk]:(MEMBERS[dim]||[]); }
@@ -352,7 +353,7 @@ function drilledBody(pk,id,mk){
     .sort((a,b)=>((FACTS[mk]||{}).invert?a[mk]-b[mk]:b[mk]-a[mk])).slice(0,10);
   const deeper=nextDim(pk,d.toDim);
   return hBars(rows,"name",mk,pk,mk!=="spend"?"spend":null)
-    +`<div class="note">${DIM_LABEL[d.toDim].toLowerCase()} within the selection · ${deeper?"click a bar to drill further":"edge of the hierarchy"}</div>`;
+    +`<div class="note">${DIM_PLURAL[d.toDim]} ranked by ${L(mk,pk).toLowerCase()} within the selection · ${deeper?`click a bar to drill into its ${DIM_PLURAL[nextDim(pk,d.toDim)]}`:"edge of the hierarchy"}</div>`;
 }
 function crumbsHtml(pk,id){
   const d=drillOf(pk,id); if(!d)return "";
@@ -411,14 +412,21 @@ function cardHtml(pk,id){
   const c=CARDS[id];
   const d=(["rank","table","pbars","grid"].includes(id))?drillOf(pk,id):null;
   // evaluation order matters: title() initializes the card's default state, q/ctl/body read it
-  const titleHtml=c.title(pk), qHtml=c.q(pk), ctlHtml=c.ctl(pk);
+  let titleHtml=c.title(pk), qHtml=c.q(pk);
+  const ctlHtml=c.ctl(pk);
   let body;
-  if(d){ const mk=(st(pk,id,{}).mk)||(id==="grid"?CFG[pk].effAlt:CFG[pk].eff); body=drilledBody(pk,id,mk); }
+  if(d){ const mk=(st(pk,id,{}).mk)||(id==="grid"?CFG[pk].effAlt:CFG[pk].eff);
+    body=drilledBody(pk,id,mk);
+    // drilled: say exactly what the card now shows — selection · target level · ranking metric
+    const last=d.filters[d.filters.length-1];
+    qHtml=`inside ${d.filters.map(f=>`${esc(DIM_LABEL[f.dim]||f.dim)} “${esc(f.value)}”`).join(" › ")} — drilled from ${titleHtml}`;
+    titleHtml=`${esc(last.value)} · ${DIM_PLURAL[d.toDim]} by ${esc(L(mk,pk))}`;
+  }
   else body=c.body(pk);
   return `<section class="card" data-cid="${id}">
     <header class="card-h">
       <span class="grip" title="Drag to reorder">${ICON_GRIP}</span>
-      <div class="tw"><h3 class="t">${titleHtml}${d?" — drilled":""}</h3><div class="q">${qHtml}</div></div>
+      <div class="tw"><h3 class="t">${titleHtml}</h3><div class="q">${qHtml}</div></div>
       <div class="ctls">${ctlHtml}</div>
       <div class="tail">
         <span class="synced">synced 2m ago</span>
