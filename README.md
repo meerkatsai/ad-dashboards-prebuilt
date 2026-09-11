@@ -10,6 +10,14 @@ Companion repos: [ad-platform-dashboards-aligned](https://github.com/meerkatsai/
 (the UI + DSL-aligned schemas these cards render in) · original design reference:
 [ad-platform-dashboards](https://github.com/meerkatsai/ad-platform-dashboards).
 
+## Cockpit demo + design system
+
+`index.html` + `cockpit.js` at the root render the library as a **cockpit demo** in the
+design system (Geist / Geist Mono / Instrument Serif, the handoff tokens vendored at
+`design/tokens/`): top bar with platform switcher, pinned cards stacked full-width, the
+Reports library below, pin/unpin working (persisted locally). Every card executes its
+baked query against a seeded demo executor — no LLM, no build step, Vercel-deployable as-is.
+
 ## What's here
 
 | Path | Contents |
