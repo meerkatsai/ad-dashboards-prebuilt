@@ -39,7 +39,7 @@
   .card-h .tw{flex:1;min-width:0}
   .card-h .t{font-size:var(--fs-card);font-weight:600;color:var(--ink-900)} .card-h .q{font-size:var(--fs-label);color:var(--ink-500);margin-top:2px}
   .card-h .meta{font-family:var(--font-mono);font-size:var(--fs-micro);color:var(--ink-400);text-transform:lowercase;white-space:nowrap;padding-top:3px}
-  .pinbtn{border:1px solid var(--rule);background:var(--surface-card);width:28px;padding:0;font-size:14px;color:var(--ink-400)}
+  .pinbtn{border:1px solid var(--rule);background:var(--surface-card);width:28px;padding:0;color:var(--ink-400);display:inline-flex;align-items:center;justify-content:center}
   .pinbtn.pinned{color:var(--accent);border-color:var(--accent);background:var(--surface-tint)}
   .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 20px;border-bottom:1px solid var(--rule)}
   .controls .chip{font:500 var(--fs-label)/1 var(--font-ui);border:1px solid var(--rule);border-radius:4px;padding:6px 10px;color:var(--ink-500);background:var(--surface-sunken)}
@@ -74,6 +74,7 @@
 </div></div>
 <div class="wrap">
   <div class="mono" style="margin-bottom:16px">prebuilt card library · every card runs its baked query (seeded demo data, no llm) · pin/unpin is the only mutation — pins persist locally</div>
+  <div class="section" id="pinHead" style="margin-top:0"></div>
   <div id="stack"></div>
   <div class="section" id="libHead">reports — unpinned, pin to add to the cockpit</div>
   <div id="library"></div>

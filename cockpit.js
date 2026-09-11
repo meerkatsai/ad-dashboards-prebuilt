@@ -8,6 +8,8 @@ const GRAINS = ["date", "week", "month"];
 const NON_ADDITIVE = new Set(["roas","roi","direct_roi","indirect_roi","acos","ctr","cvr","cpc","avg_cpc","cpm","cpi","aov","reach","frequency","conv_rate","cost_per_conv","cost_per_purchase","conv_value_per_cost","mer","spend_share","ntb_share","budget_utilization_pct"]);
 const SERIES = ["var(--series-1)","var(--series-2)","var(--series-3)","var(--series-4)","var(--series-5)","var(--series-6)","var(--series-7)","var(--series-8)"];
 const HEAT = ["var(--heat-1)","var(--heat-2)","var(--heat-3)","var(--heat-4)","var(--heat-5)"];
+const ICON_PIN='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z"/></svg>';
+const ICON_PIN_OFF='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M15 9.34V6h1a2 2 0 0 0 0-4H7.89"/><path d="m2 2 20 20"/><path d="M9 9v1.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h11"/></svg>';
 const REP = {kpiStrip:"kpi", trendLine:"line", barsHorizontal:"bars_h", barsVertical:"bars_v", dataTable:"table", heatmap:"heatmap"};
 
 /* fact defs come from the CATALOG (canonical keys, native labels) */
@@ -204,7 +206,7 @@ function cardHtml(card, pinned){
     <div class="card-h">
       <div class="tw"><div class="t">${esc(card.title)}</div><div class="q">${esc(card.question||"")}</div></div>
       <span class="meta">synced 2m ago</span>
-      <button class="pinbtn ${pinned?"pinned":""}" data-pin="${esc(card.id)}" title="${pinned?"unpin":"pin to cockpit"}">${pinned?"●":"○"}</button>
+      <button class="pinbtn ${pinned?"pinned":""}" data-pin="${esc(card.id)}" title="${pinned?"unpin":"pin to cockpit"}">${pinned?ICON_PIN_OFF:ICON_PIN}</button>
     </div>
     <div class="controls">${controlsHtml(card)}</div>
     <div class="body">${rows.length?renderCard(card,rows):'<div class="mono">no data</div>'}</div>
@@ -218,9 +220,10 @@ function render(){
   const pinnedIds=PINS[p]||[];
   const pinned=pinnedIds.map(id=>cards.find(c=>c.id===id)).filter(Boolean);
   const rest=cards.filter(c=>!pinnedIds.includes(c.id));
+  $("#pinHead").innerHTML=`<span style="color:var(--accent);display:inline-flex;vertical-align:-2px">${ICON_PIN}</span> pinned charts — ${pinned.length} pinned`;
   $("#stack").innerHTML=pinned.length?pinned.map(c=>cardHtml(c,true)).join(""):'<div class="mono" style="padding:20px 0">nothing pinned — pin reports from the library below</div>';
   $("#libHead").textContent=`reports — ${rest.length} unpinned, pin to add to the cockpit`;
-  $("#library").innerHTML=rest.map(c=>`<div class="libitem"><span class="t">${esc(c.title)}</span><span class="rep">${esc(c.representation)}</span><span class="sp"></span><button class="pinbtn" data-pin="${esc(c.id)}" title="pin to cockpit">○</button></div>`).join("");
+  $("#library").innerHTML=rest.map(c=>`<div class="libitem"><span class="t">${esc(c.title)}</span><span class="rep">${esc(c.representation)}</span><span class="sp"></span><button class="pinbtn" data-pin="${esc(c.id)}" title="pin to cockpit">${ICON_PIN}</button></div>`).join("");
   document.querySelectorAll("[data-pin]").forEach(b=>b.addEventListener("click",()=>{
     const id=b.dataset.pin; const pins=PINS[p]||[];
     PINS[p]=pins.includes(id)?pins.filter(x=>x!==id):pins.concat([id]);
