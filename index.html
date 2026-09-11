@@ -55,7 +55,8 @@
   td{height:36px;padding:0 12px;font-size:var(--fs-body);color:var(--ink-700);text-align:right;border-bottom:1px solid var(--rule);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   th:first-child,td:first-child{text-align:left}
   tr:hover td{background:var(--surface-sunken)}
-  .section{font:500 var(--fs-micro) var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);margin:28px 0 12px}
+  .restore{padding:12px 16px;border:1px dashed var(--rule);border-radius:6px;font-size:var(--fs-body);color:var(--ink-500);display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .restore button{border:0;background:none;color:var(--accent);font-weight:500}
   .libitem{display:flex;align-items:center;gap:12px;background:var(--surface-card);border:1px solid var(--rule);border-radius:6px;padding:10px 16px;margin-bottom:8px}
   .libitem .t{font-size:var(--fs-body);font-weight:500;color:var(--ink-900)}
   .libitem .rep{font-family:var(--font-mono);font-size:var(--fs-micro);color:var(--ink-400);text-transform:lowercase}
@@ -73,11 +74,7 @@
   <select id="platform"></select>
 </div></div>
 <div class="wrap">
-  <div class="mono" style="margin-bottom:16px">prebuilt card library · every card runs its baked query (seeded demo data, no llm) · pin/unpin is the only mutation — pins persist locally</div>
-  <div class="section" id="pinHead" style="margin-top:0"></div>
   <div id="stack"></div>
-  <div class="section" id="libHead">reports — unpinned, pin to add to the cockpit</div>
-  <div id="library"></div>
 </div>
 <script src="cockpit.js"></script>
 </body>

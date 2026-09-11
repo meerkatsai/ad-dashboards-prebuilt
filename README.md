@@ -12,11 +12,15 @@ Companion repos: [ad-platform-dashboards-aligned](https://github.com/meerkatsai/
 
 ## Cockpit demo + design system
 
-`index.html` + `cockpit.js` at the root render the library as a **cockpit demo** in the
-design system (Geist / Geist Mono / Instrument Serif, the handoff tokens vendored at
-`design/tokens/`): top bar with platform switcher, pinned cards stacked full-width, the
-Reports library below, pin/unpin working (persisted locally). Every card executes its
-baked query against a seeded demo executor — no LLM, no build step, Vercel-deployable as-is.
+`index.html` + `cockpit.js` at the root are a faithful vanilla port of the design
+handoff's own dashboard (`ui_kits/dashboard/`): **top bar = wordmark + platform dropdown
+only**; below it the design file's exact card sets — 10 separate full-width cards per
+platform (KPIs with sparklines + vs-prev/vs-target deltas, trend, ranked campaigns,
+campaign trend, performance table, DoD/WoW/MoM period tables, campaign×dimension grid,
+placement bars; Meta swaps in Android vs iOS) and 5 blended cards on All platforms.
+Per-card controls (metric / campaign / D-W-M / compare) work; unpin hides a card into a
+dashed restore row. Tokens vendored at `design/tokens/`. Seeded demo data, no LLM, no
+build step, Vercel-deployable as-is.
 
 ## What's here
 
